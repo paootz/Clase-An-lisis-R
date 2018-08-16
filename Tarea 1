@@ -1,0 +1,114 @@
+#Tarea 1
+#Paola Brenes, Actuaría A2
+
+#Ejercicio 1
+#a)
+vec1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+vec1
+
+#b)
+vec2 <- c(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+vec2
+
+#c)
+vec3 <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+vec3
+
+#d)
+tiempo <- c(2, 7, 8)
+tiempo
+
+#e) en el vector (1, 7, 9, 1, 7, 9, . . . , 1, 7, 9)repetir 7 con el valor 9
+#usar función rep where there are 10 occurrences of 4
+rep(c(1,7,9),10)
+
+#f) en el vector(2, 3, 9, 2,3,9, . . . , 9, 2,3,9)
+#repetir 15 veces el dato 3 y 9 veces el dato 2, con función rep
+rep(c(2,3,9),c(9,15,0))
+
+#g)en el vector  (7,0,5)
+#repetir 12 veces el 7, 25 veces veces el 0 y 35 veces el 5
+rep(c(7,0,5),c(12, 25, 35))
+
+#Ejercicio 2: con base en los siguientes vectores
+
+set.seed(50)
+vector1 <- sample(0:999, 250, replace=T)
+vector1
+vector2 <- sample(0:999, 250, replace=F)
+vector2
+#describe las 4 lineas anteriores
+#el vector "vector1" toma 250 observaciones de la secuencia de numeros enteros seguidos
+#comprendidos entre el 0 y el 999, reordenados aleatoriamente, debido a que
+#declaramos el replace como verdadero las observaciones pueden o no repetirse
+
+#el vector "vector2" toma 250 observaciones de la secuencia de numeros enteros seguidos
+#comprendidos entre el 0 y el 999, reordenados aleatoriamente, por la manera en que declaramos
+#el replace como falso, las observaciones en dicho vector no se repetiran (razón misma, la 
+#magnitud de mi vector deberá ser menor o igual a como declaramos nuestra primera observacion)
+
+
+#Ejercicio 3: matrices
+#sea la sig, matriz:
+matx <- matrix(c(1,5,-2,1,2,-1,3,6,3),
+               nrow=3,byrow=F)
+matx
+
+#a)
+#remplaza la primera columna y agrega los datos de la suma del segundo
+#y tercera columna
+
+matrix(c((matx[ ,2]+matx[ ,3]),1,2,-1,3,6,3),
+       nrow=3,byrow=F)
+
+#Ejercicio 4: genera una matriz de  8 × 9 de valores aleatorios enteros y con
+#un rango entre 0 y 9 (la cual llamaré mat2)
+
+mat2 <- matrix(c(sample(0:9,72,replace=T)), nrow=8, ncol=9, byrow=F)
+mat2
+
+#a)Encuentra los valores que tengan el número 1 y extraigalos
+mat2[c(1,16,20,24,34,38,50,64,65)]
+
+#b) extraiga el valor que esta en el renglon 1 columna 3
+mat2[[1,3]]
+
+#c) genera una matriz donde uses el argumento byrow= , nrow=.. Con 5 renglones
+mat3 <- matrix(1:25,nrow=5, byrow=T)
+mat3
+nrow(mat3)
+
+#d) De la matriz de 8x9 (mat2) extrae la columna 7 declarala como un nuevo vector
+vecmat <- c(mat2[ ,7])
+vecmat
+
+#e) suma cada una de las columnas y los renglones de la matriz de 8x9 y genera
+#dos vectores nuevos que contengan todo la columna (veccol) y renglon (vecrow) seleccionada
+veccol <- c(colSums(mat2[1:8, ]))
+veccol
+vecrow <- c(rowSums(mat2[ ,1:9]))
+vecrow
+
+#f) Genera una matriz de 4 renglonesy 5 columnas  que se llame s y calcula:
+s <- matrix(1:20, nrow=4, ncol=5, byrow = T)
+s
+
+#la media de la columna 5
+mean(s[ , 5])
+
+#la varianza del renglon 2
+var(s[2, ])
+
+#investiga la función rowMeans() y colMeans() y menciona que 
+#columna y renglon tienen la media más alta
+rowMeans(s)
+colMeans(s)
+#la media mas alta de las 4 filas es la de la fila no.4 
+#y la media mas alta de las columnas es la no.5
+
+#g) de la matriz de 8x9 (mat2) agregale una columna solo con valores de 1
+cbind(mat2,rep(1,8))
+
+#h) de la matriz de 4 renglones y 5 columnas (s) agregale un renglon
+#solo con valores de 0
+rbind(s,rep(0,5))
