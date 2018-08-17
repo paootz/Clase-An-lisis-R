@@ -1,0 +1,49 @@
+#Tarea 2
+#Paola Brenes, Actuaría A2
+
+install.packages("ggplot2")
+library("ggplot2")
+
+
+x<-c(.40,.42,.48,.51,.57,.60,.70,.75,.75,.78,.84,.95,.99,1.03,1.12,1.15,1.20,1.25,
+     1.25,1.28,1.30,1.34,1.37,1.40,1.43,1.46,1.49,1.55,1.58,1.60)
+y<-c(1.02,1.21,.88,.98,1.52,1.83,1.50,1.80,1.74,1.63,2.00,2.80,2.48,2.47,3.05,3.18,
+     3.76,3.68,3.82,3.21,4.27,3.12,3.99,3.75,4.10,4.18,3.77,4.34,4.21,4.92)
+
+#Juntando los datos en un data frame para la tabulacion
+vectores<-data.frame(x,y)
+vectores
+
+#hacer una gráfica de dispersión con los datos de x,y
+ggplot(data=vectores, aes(y=y,
+                          x=x)) + ggtitle("diagrama de disersión original") +
+  geom_point()+ geom_abline (intercept=.01,
+                             slope=2.67)
+#para el tipo de relacion, al observar la gráfica podemos trazar una linea
+# recta la cual se adapta al comportamiento de nuestros datos mostrados
+#en la gráfica de dispersión, por lo tanto podemos decir que la relación
+# ES LINEAL
+
+View(vectores)
+vectores<-edit(vectores
+               
+num.outliers<-2
+mah.ordenacion <- order(mahalanobis(vectores, colMeans(vectores), cov(vectores)), decreasing=TRUE)
+outliers<-rep(FALSE,nrow(vectores))
+outliers
+
+#2 graficas una con outlier de un color y la otro sin outlieer
+outliers[mah.ordenacion[1:num.outliers]]<-TRUE
+colorear.outlier<-outliers*16
+plot(vectores, pch=0,main="Puntos Atípicos")+points(vectores, pch=colorear.outlier)
+dev.off()
+#la fuerza de la relación es ALTA
+#quitar puntos atípicos de la gráfica
+vectores2[-c(21,30), ]
+  vectores2<-vectores[-c(21,30),]
+ggplot(vectores2, aes(x=x,y=y))+geom_point()+ggtitle("diagrama de dispersion sin puntos atípicos")+xlab("variable independiente X")+
+  ylab("variable dependiente Y")+geom_smooth(method = lm)
+dev.off()
+
+#script y graficas en PDF
+#madar al correo y a github
