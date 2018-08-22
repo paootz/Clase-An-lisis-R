@@ -1,0 +1,34 @@
+#Clase del 21 de agosto de 2018
+#Paola Brenes
+
+#instalación de las librerías
+install.packages("ggplot2")
+library(ggplot2)
+
+#creacion de vestores
+ejex<-c(32,129,120,113.2,105,92,84,83.2,88.4,59,80,81.5,71,69.2)
+ejex
+ejey<-c(46,48,51,52.1,54,52,59,58.7,61.6,64,61.4,54.6,58.8,58)
+ejey
+
+#creamos una gráfica de dispersion:
+
+ggplot(data=NULL, aes(y=ejey,xejex))+geom_point()
+
+##La anterior grafica presenta una fuerza de magnitud media y una relacion negativa
+
+#cálculo de b0, b1
+
+mean(ejex)
+mean(ejey)
+
+numejex<-c(sum((ejex-mean(ejex))*(ejey-mean(ejey))))
+denejex<-c(sum((ejex-mean(jex))*(ejex-mean(ejex))))
+denejex
+
+b1<-c(numx/denx)
+b1
+#sea b0
+valor2<-c((sum(ejey)-b1*sum(ejex))/14)
+valor2
+ggplot(data=NULL, aes(y=ejey,xejex))+geom_point()+geom_smooth(method=("lm"))
