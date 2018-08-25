@@ -1,0 +1,28 @@
+#Tarea 3
+#Paola Brenes, Actuaría A2
+
+x <- c(125.3, 98.2, 201.4, 147.3, 145.9, 124.7, 112.2, 120.2, 161.2, 178.9, 159.5, 145.8, 75.1, 151.4, 144.2, 125, 198.8, 132.5, 159.6, 110.7)
+x
+y <- c(77.9, 76.8, 81.5, 79.8, 78.2, 78.3, 77.5, 77, 80.1, 80.2, 79.9, 79, 76.7, 78.2, 79.5, 78.1, 81.5, 77 ,79, 78.6)
+y
+
+#1 Calcular y gorrito
+#Calculo de estimaciones puntuales B0 y B1
+
+mediax=mean(x)
+mediay=mean(y)
+numSxy <- c(sum((x-mean(x))*(y-mean(y))))
+denSxx <- c(sum((x-mean(x))*(x-mean(x))))
+b1=numSxy/denSxx
+b1 
+bo=mediay-(b1*mediax)
+b0
+ygorr=b0+(b1*x)
+ygorr
+
+#2 Calcular los residos (principio de minimos cuadrados)
+
+residuos <- (y-ygorr)
+residuos
+residuostotal <- sum(residuos)
+residuostotal
