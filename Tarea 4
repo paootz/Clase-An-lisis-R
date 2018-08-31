@@ -1,0 +1,338 @@
+#Tarea 4
+#Serie de 11 ejercicios
+#Paola Brenes, Actuaría A2
+
+######################################################################################################################################
+#Ejercicio 1
+
+#Temperatura=x Relacion=y
+x<-c(170,172,173,174,174,175,176,177,180,180,180,180,180,181,181,182,182,182,182,184,184,185,186,188)
+x
+y<-c(.84,1.31,1.42,1.03,1.07,1.08,1.04,1.80,1.45,1.60,1.61,2.13,2.15,.84,1.43,.90,1.81,1.94,2.68,1.49,2.52,3.00,1.87,3.08)
+y
+#a) Construya grÃ¡ficas de tallo y hojas tanto en la relacion de temperatura como de la relacion
+boxplot(y)
+boxplot(x)
+#Se puede notar que en la variable relacion existe una media de 1.5
+#y no existen outliers, es decir que no existen datos atipicos
+boxplot(x)
+#Se puede notar que en la variable relacion existe una media de 180
+#y no existen outliers, es decir que no existen datos atipicos
+
+#y de forma unica por la temperatura del tanque? Explique su razonamiento
+###Para calcular r^2
+#b1
+Sxy<-c(sum((x-mean(x))*(y-mean(y))))
+Sxx<-c(sum((x-mean(x))*(x-mean(x))))
+b1=Sxy/Sxx
+b1
+#b0
+b0<-c((sum(y)-b1*sum(x))/24)
+b0
+yestimada<-b0+b1*x
+yestimada
+#residuos
+residuos<-y-yestimada
+residuos
+#SSE
+SSE<-c(sum(residuos^2))
+SSE
+#SIGMA^2
+s2<-SSE/(24-2)
+#S
+sqrt(s2)
+#SST
+SST=sum(y^2)-(sum(y)^2)/20
+SST
+#r^2
+r2=1-(SSE/SST)
+r2
+#la relación no depende totalemte de la temperatura porque sino seria el valor de r 1
+ggplot(data=NULL , aes(y=y , x=x)) + geom_point() + geom_smooth("lm")
+
+######################################################################################################################################
+
+##Ejercicio 2
+##Se utilizo mezclas de gasolinas basicas y gasolina reformulada
+
+motor<-c(1,2,3,4,5,6,7,8,9,10)
+edad<-c(0,0,2,11,7,16,9,0,12,4)
+lineabase<-c(1.72,4.38,4.06,1.26,5.31,.57,3.37,3.44,.74,1.24)
+ref<-c(1.88,5.93,5.54,2.67,6.53,.74,4.94,4.89,.69,1.42)
+
+##Construya graficas de dispersion, ?Cual es su relacion?
+
+##Edad con Linea de base
+ggplot(data =NULL, aes(y= edad, x= lineabase)) + geom_point() + geom_smooth(method=("lm"))
+
+##Edad con reformulada
+ggplot(data =NULL, aes(y= edad, x= ref)) + geom_point() + geom_smooth(method=("lm"))
+
+##Va en contra de la naturaleza
+##Ambas graficas nos muestran que no hay relacion entre los a?os y las emisiones que generan
+##ya sea que haya usado gasolina basica o reformulada
+
+######################################################################################################################################
+  
+###Ejercicio 3
+##X- concentracion de hidrogeno mediante metodo cromatico de gases
+##Y- concentacion mediante un nuevo metodo de sensor 
+
+x<-c(47,62,65,70,70,78,95,100,114,118,124,127,140,140,140,150,152,164,198,221)
+y<-c(38,62,53,67,84,79,93,106,117,116,127,114,134,139,142,170,149,154,200,215)
+
+##Construya una grafica de dispersion 
+ggplot(data =NULL, aes(y= y, x= x)) + geom_point() + geom_smooth(method=("lm"))
+
+##?Habra una fuerte relacion entre los dos tipos de mediciones de concentracion?
+cor(x,y)
+##La correlacion nos da de 0.9852362 esto nos confirma que hay una relacion MUY FUERTE
+
+##?Sera que los dos metodos miden aproximadamente la misma cantidad?
+##Si por la relacion que presentan se nota que estos metodos miden la misma cantidad
+##Explique su razonamiento
+
+######################################################################################################################################
+
+#Ejercicio 4
+
+#Los datos adjuntos en y= concentración de amonio (mg/L) y x= transpiración (ml/h) se toman
+#de una gráfica que aparece en el artículo "Resporise of Ammonium Removal to Growth and 
+#Transpiration of Juncus effusus During the Treatment of Artificial Sewage in Laboratory-Scale
+#Wetlands" (Water Research, 2013: 4265-4273). El resumen del artículo indica "una correlación 
+#lineal entre la concentración de amonio dentro de la rizosfera y la transpiracion de las
+#poblaciones de plantas implica que existe una influencia de actividad fisológica de las 
+#plantas sobre la eficiencia de N remociones". (La rizosfera es la estrecha superficie en
+#que las raíces de las plantas interaccionan con el suelo y la transpiración es el proceso
+#de movimiento del agua a través de una planta y su evaporación). El artículo reporta las
+#cantidades resumidas de un análisis de regresión lineal simple. Con base en un diagrama 
+#de dispersión, ¿cómo describiría la relación entre variabeles y será que la regresión 
+#lineal simple es una estrategia de modelado apropiada?
+
+install.packages("ggplot2")
+
+library("ggplot2")
+
+x1 <- c(5.8, 8.8, 11.0, 13.6, 18.5, 21.0, 23.7,26.0, 28.3, 31.9, 36.5, 38.2, 40.4)
+y1 <- c(7.8, 8.2, 6.9, 5.3, 4.7, 4.9, 4.3,2.7, 2.8, 1.8, 1.9, 1.1, .4)
+
+datos1<-data.frame(x1,y1)
+datos1
+ggplot(datos1, aes(x=x1,y=y1))+geom_point()+ggtitle("Ammonium Removal")+xlab("Transpiración (ml/h)")+
+
+ ylab("Concentración de amonio (mg/L)")+geom_smooth(method = "lm")
+
+
+#Así podemos concluir que la correlación lineal existente entre la concentración de
+#amonio dentro de la rizosfera y la transpiración de las reservas vegetales implica 
+# que si existe una influencia de la actividad fisiológica de la planta sobre la 
+#eficacia de la eliminación de N remociones
+
+######################################################################################################################################
+
+
+#Ejercicio 5
+
+#El artículo "Objective Measurement of the Stretchability of Mozzarella Cheese"
+#(J. of Texture Studies, 1992: 185- 194) reporta sobre un experimento para investigar
+#la variación del comportamiento del queso mozzarella con la temperatura.
+#Considere los siguientes datos sore x=temperatura y y=alargamiento (%) en el 
+#momento de la falla del queso.
+
+x2 <- c(59, 63, 68, 72, 74, 78, 83)
+y2 <- c(118, 182, 247, 208, 197, 135, 132)
+ 
+# a) Construya una gráfica de dispersión en la cual 
+#marque 0, 50, 100, 150, 200 y 250 en el eje vertical
+
+puntosextra <- c(0, 20, 40, 80, 0, 0, 0)
+puntosy <-c(0, 0, 0, 0, 50, 100, 150)
+
+
+datos2<-data.frame(x2,y2)
+datos2
+
+ggplot(datos2, aes(x=x2,y=y2))+geom_point(aes(colour=puntosextra,puntosy))+geom_point(aes(colour=puntosy,puntosx))+ggtitle("Mozzarella Cheese Stretchability")+xlab("Temperatura")+
+
+ ylab("Alargamiento (%)")
+
+
+# b) Construya una gráfica de dispersión en la cual los ejes se corten en (55,100)
+#¿será preferible esta gráfica a la del inciso a)?
+
+ggplot(datos2, aes(x=x2,y=y2), xlab=55, ylab=100)+geom_point(aes(colour=puntosextra,puntosy))+geom_point(aes(colour=puntosy,puntosx))+ggtitle("Mozzarella Cheese Stretchability")+xlab("Temperatura")+
+
+ ylab("Alargamiento (%)")
+
+#si, pues los datos se pueden observar de una manera mas clara, pues no estaban cerca del origen 
+#y ahora se observan mas cercanos y juntos
+
+
+# c) ¿Qué sugieren las gráficas de los incisos a) y b) sobre la naturaleza de la 
+#relación entre las dos variables?
+#que ambas variables en efecto estan relacionadas pero con una fuerza media
+
+######################################################################################################################################
+
+# Ejercicio 6 #
+La gr?fica tiene una relaci?n lineal negativa, presenta datos at?picos, con base a
+la dispersi?n de los datos podemos concluir en que ambas variables si tienen una 
+correlaci?n < 0 tendiendo a moderada/fuerte.
+
+Como dato podemos observar que hay dos tenistas que son muy diferentes a los dem?s
+los cuales se muestran como los datos at?picos en la parte inferior derecha de la 
+gr?fica.
+
+######################################################################################################################################
+
+#Ejercicio 7
+
+Dada la desviaci?n = 350
+
+P(z>(5000-4400/350)) = 0.0436
+
+E[y]= P(z>5000) = P(z>0.14) = 0.4443
+
+E[y2-y1]= 5050-4400 = 650
+V[y2-y1]= 350^2 + 350^2 = 24500 
+desviaci?n neta = desviaci?n*(2^(1/2)) = 494.97
+=> P(z>((1000-650)/494.97)) 
+P(z>.707) = 0.2389
+
+E[y2-y1] = 1800+(1.3*x2)-(1800+(1.3*x1))
+=> P(y2-y1 > 0)
+=> P(Z> ((-1.3(x2-x1))/494.97)) = 0.95
+
+===> x2-x1 = 626.33
+
+######################################################################################################################################
+
+# Ejercicio 8 #
+
+Dada la desviaci?n = 350
+
+P(z>(5000-4400/350)) = 0.0436
+E[y]= P(z>5000) = P(z>0.14) = 0.4443
+
+
+E[y2-y1]= 5050-4400 = 650
+V[y2-y1]= 350^2 + 350^2 = 24500 
+desviaci?n neta = desviaci?n*(2^(1/2)) = 494.97
+=> P(z>((1000-650)/494.97)) 
+P(z>.707) = 0.2389
+
+######################################################################################################################################
+
+##EJERCICIO 9
+##X caida de presion 
+x<-c(5:20)
+##Y la veloidad de flujo
+y<-(-.12+.095*x)
+
+##¿Cual es el cambio de la velocidad de flujo asociado con un 
+##incremento de 1 pulg en la caida de presion?
+y[2]-y[1]
+y[10]-y[9]
+
+##El cambio es de 0.095
+
+## ¿Que cambio de la velocidad de flujo puede ser esperado cuando 
+##la caida de presion se reduce a 5 pulg, 10 y 15?
+
+y[5]
+y[10]
+y[15]
+
+##suponga r=.025 y considere una caida de presion de 10 pulg ¿cual 
+## es la probabilidad de que la vel de flujo exceda .835? ¿y de que 
+## la vel exceda .84?
+
+##P(y>.835 cuando x=10):
+
+(.835-y[10])/.025
+##P(y>.84 cuando x=10):
+(.84-y[10])/.025
+
+##¿Cual es la probabilidad cuando la presion sea 10 exceda la 
+## velocidad de flujo cuando la caida es 11?
+(.835-y[11])/.025
+(.84-y[11])/.025
+
+######################################################################################################################################
+
+#Ejercicio 10
+
+#Suponga que el costo de una corrida de producción está relacionada con el tamaño
+#de la corrida mediante la ecuación y=4000 + 10x. Sea Y una observación sobre el 
+#costo de una corrida. Si el tamaño de las variables y el costo están relacionadas
+#de acuerdo con el modelo de regresión lineal simple, ¿podrían ser el caso de que 
+# P(Y>5500 cuando x=100)= .05 y P(Y>6500 cuando x=200) = .10? Explique.
+
+#De acuerdo con el modelo de regresión lineal simple se necesitarian n observaciones
+#de la variable independiente para conocer la variable aleatoria y su valor observado
+#(x)
+#para lo cual primero necesitaríamos una imagen preliminar de la relacion entre
+#las variables x y y, esto dando valores aleatorios para nuestra variable independiente (x)
+
+valoresy <- c(4000+10*sample(0:50, 20, replace=F))
+valoresy
+mediax=mean(sample(0:50, 20, replace=F)
+mediay=mean(valoresy)
+mediay
+numSxy <- c(sum((sample(0:50, 20, replace=F)-mean(sample(0:50, 20, replace=F))*(valoresy-mean(valoresy)))
+denSxx <- c(sum((sample(0:50, 20, replace=F)-mean(sample(0:50, 20, replace=F))*(sample(0:50, 20, replace=F-mean(sample(0:50, 20, replace=F))))
+b1=(numSxy/denSxx)
+b1 
+b0=mediay-(b1*mediax)
+b0
+ygorr=b0+(b1*sum((sample(0:50, 20, replace=F)
+ygorr
+residuos <- (valoresy-ygorr)
+residuos
+residuos2 <- (valoresy-ygorr)^2
+residuos2
+residuostotal <- sum(residuos)
+residuostotal
+sse <- sum(residuos2)
+sse
+#sigma^2
+sigma=(sse/(20-2))
+sigma
+#raiz
+ra <- c(sqrt(sigma))
+
+#y asi teniendo nuestro valor de la desviación estándar podemos hacer el calculode las
+#probabilidades soclicitadas viendo que no es posible que ambas probabilidades planteadas
+#puedan llevarse a cabo al mismo tiempo pues la P(z>(5500-5000)/ra)=0.5 y
+#P(z>(6500-6000)/ra)=0.10 iguales a P(z>500/ra)=0.5=0.10 no son matematicamente posibles
+#Concluyedo ambos casos no pueden ser posibles de acuerdo al modelo de regresión lineal
+#simple
+
+######################################################################################################################################
+
+#Ejercicio 11 
+#a)
+y1=5-(.1*(1))
+y1
+#4.9
+y2=5-(.1*(10))
+y2
+#4
+y3=5-(.1*(200))
+y3
+
+#b)
+my2<-5.00-.01*(200)
+my2
+
+my25<-5.00-.01*(250)
+my25
+
+#c)
+# probabilidad para una observación
+# P(2.4<Z<2.6)
+# P[(2.4-2.5/.075)<Z<(2.6-2.5/.075)]
+# P[-1.33<Z<1.33]
+
+tstudent<-(pnorm(1.33,0,1)-pnorm(-1.33,0,1))
+tstudent
