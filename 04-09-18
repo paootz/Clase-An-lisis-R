@@ -1,0 +1,48 @@
+#Clase del 04 de septiembre, 2018
+#Paola M. Espinosa Brenes
+
+x<-c(50,50,80,80,110,110,140,140,170,170)
+x
+y<-c(17052,14063,26264,19600,21952,26362,26362,26754,31654,32928)
+y
+#b1
+Sxy<-c(sum((x-mean(x))*(y-mean(y))))
+Sxx<-c(sum((x-mean(x))*(x-mean(x))))
+Sxx
+b1=Sxy/Sxx 
+b1 
+#B1 gorrito
+
+#b0
+b0<-c((sum(y)-b1*sum(x))/10)
+b0
+#B0 gorrito 
+
+yestimada<-b0+b1*x
+yestimada
+
+#residuos
+residuos<-y-yestimada
+residuos
+#SSE
+SSE<-c(sum(residuos^2))
+SSE
+#SIGMA^2
+s2<-SSE/(10-2)
+s2
+#S
+sqrt(s2)
+#SST
+SST=sum(y^2)-(sum(y)^2)/10
+SST
+#r^2
+r2=1-(SSE/SST)
+r2
+
+Sb1<-sqrt(s2)/sqrt(Sxx)
+Sb1
+
+b1+t.test(.025,8)*(Sb1) 
+#Sacar de la tabla el valor de t student
+
+b1+7.7782*(Sb1)
