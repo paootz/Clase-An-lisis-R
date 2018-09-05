@@ -1,0 +1,382 @@
+Intergrantes del equipo:
+
+Espinosa Brenes Paola
+
+Fonseca Raúl Valentin
+
+Gutiérrez Uribe Josselyne
+
+Oliver Zaleta Maribel
+
+#Tarea script capítulo 2 del ggplot
+
+ 
+
+ 
+
+set.seed(1410) # Base de datos
+
+dsmall <- diamonds[sample(nrow(diamonds), 100), ]
+
+dsmall
+
+ 
+
+#uso de qplot() con diferentes argumentos
+
+ 
+
+#mostrando una relacion entre carat y precio
+
+qplot(carat, price, data = diamonds)
+
+ 
+
+#Si la relacion se quiere ver exponencial
+
+qplot(log(carat), log(price), data = diamonds)
+
+ 
+
+#argumentos x y z
+
+qplot(carat, x * y * z,data = diamonds)
+
+ 
+
+#Color, forma y otros atributos esteticos
+
+ 
+
+#Usar varios colores 
+
+qplot(carat, price, data = dsmall, colour = color)
+
+ 
+
+#Usar formas
+
+qplot(carat, price, data = dsmall, shape = cut)
+
+ 
+
+#color degradado
+
+qplot(carat, price, data = diamonds, alpha = I(1/10))
+
+qplot(carat, price, data = diamonds, alpha = I(1/100)) 
+
+qplot(carat, price, data = diamonds, alpha = I(1/200))
+
+ 
+
+#Añadiendo una funcion 
+
+qplot(carat, price, data = dsmall, geom = c("point", "smooth")) 
+
+qplot(carat, price, data = diamonds, geom = c("point", "smooth")) 
+
+qplot(carat, price, data = dsmall, geom = c("point", "smooth"), span = 0.2)
+
+qplot(carat, price, data = dsmall, geom = c("point", "smooth"), span = 1)
+
+ 
+
+library(mgcv)
+
+qplot(carat, price, data = dsmall, geom = c("point", "smooth"), method = "gam", formula = y ~ s(x))
+
+qplot(carat, price, data = dsmall, geom = c("point", "smooth"), method = "gam", formula = y ~ s(x, bs = "cs"))
+
+ 
+
+#boxplots
+
+qplot(color, price/carat, data=diamonds, geom = "jitter", alpha= I(1/5))
+
+qplot(color, price / carat, data = diamonds, geom = "jitter", alpha = I(1 / 50))
+
+qplot(color, price / carat, data = diamonds, geom = "jitter", alpha = I(1 / 200))
+
+ 
+
+#histograma
+
+qplot(carat, data = diamonds, geom = "histogram")
+
+qplot(carat, data = diamonds, geom = "density") 
+
+qplot(carat, data = diamonds, geom = "histogram", binwidth = 1, xlim = c(0,3))
+
+qplot(carat, data = diamonds, geom = "histogram", binwidth = 0.1, xlim = c(0,3))
+
+qplot(carat, data = diamonds, geom = "histogram", binwidth = 0.01, xlim = c(0,3))
+
+qplot(carat, data = diamonds, geom = "density", colour = color)
+
+qplot(carat, data = diamonds, geom = "histogram", fill = color) 
+
+ 
+
+#barchats
+
+qplot(color, data = diamonds, geom = "bar")
+
+qplot(color, data = diamonds, geom = "bar", weight = carat) + scale_y_continuous("carat")
+
+ 
+
+##Time series with line and path plots 
+
+ 
+
+qplot(date, unemploy / pop, data = economics, geom = "line")
+
+## el primer argumento te dice el nombre del eje x, el segundo del y
+
+## el tercero de donde sacar los datos y el cuarto que tipo de grafico deseas
+
+ 
+
+qplot(date, uempmed, data = economics, geom = "line")
+
+ 
+
+ 
+
+year <- function(x) as.POSIXlt(x)$year + 1900
+
+ 
+
+qplot(unemploy / pop, uempmed, data = economics,
+
+      geom = c("point", "path"))
+
+ 
+
+##grafica de puntos que esta unida por unas lineas.
+
+ 
+
+qplot(unemploy / pop, uempmed, data = economics,
+
+      geom = "path", colour = year(date)) + scale_size_area()
+
+ 
+
+##A esta grafica se le agrego color respecto a la variable de año 
+
+ 
+
+##FACETING
+
+ 
+
+##opciones para controlar la apariencia de los graficos
+
+ 
+
+ 
+
+qplot(carat, data = diamonds, facets = color ~ .,
+
+      geom = "histogram", binwidth = 0.1, xlim = c(0, 3))
+
+ 
+
+qplot(carat, ..density.., data = diamonds, facets = color ~ .,
+
+      geom = "histogram", binwidth = 0.1, xlim = c(0, 3))
+
+ 
+
+ 
+
+qplot(
+
+  +   carat, price, data = dsmall,
+
+  +   xlab = "Price ($)", ylab = "Weight (carats)",
+
+  + main = "Price-weight relationship" +)
+
+ 
+
+##Gráfica de dispersion, datos de dsmall, con las etiquetas en x Price y en y
+
+##Weight el titulo es Price-weight relationship
+
+ 
+
+qplot(
+
+  +    carat, price/carat, data = dsmall,
+
+  +    ylab = expression(frac(price,carat)),
+
+  +    xlab = "Weight (carats)",
+
+  +    main="Small diamonds",
+
+  +    xlim= c(.2,1) +)
+
+ 
+
+## Mismas indicaciones de la anterior con limites en el eje x
+
+ 
+
+qplot(carat, price, data = dsmall, log = "xy")
+
+ 
+
+##La funcion log registra os ejes, en este caso ambos
+
+ 
+
+ 
+
+######################################
+
+#capítulo 3 de using r for data and graphics
+
+plot(y ~ x) # Use a formula to specify the graph plot(x, y)
+
+plot((0:20)pi/10, sin((0:20) pi/10)
+
+plot((1:30)0.92, sin((1:30) 0.92))
+
+attach(elasticband)     # R now knows where to find distance & stretch
+
+plot(distance ~ stretch)
+
+plot(ACT ~ Year, data=austpop, type="l") 
+
+plot(ACT ~ Year, data=austpop, type="b")
+
+attach(austpop)
+
+plot(spline(Year, ACT), type="l") # Fit smooth curve through points 
+
+detach(austpop)    # In S-PLUS, specify detach(“austpop”)
+
+ 
+
+plot(hills) # Has the same effect as pairs(hills)
+
+par(cex=1.25)    # character expansion
+
+points() is type = "p", and for lines() is type = "l"
+
+oldpar <- par(cex=1.25, mex=1.25) # mex=1.25 #expands the margin by 25%
+
+attach(elasticband) oldpar <- par(cex=1.5) 
+
+plot(distance ~ stretch)
+
+par(oldpar)     # Restores the earlier settings 
+
+#multiple plots
+
+par(mfrow=c(2,2), pch=16)
+
+attach(Animals)    # This dataset is in the MASS package, which must be attached 
+
+plot(body, brain)
+
+plot(sqrt(body), sqrt(brain)) plot((body)^0.1, (brain)^0.1) 
+
+plot(log(body),log(brain)) 
+
+detach(Animals)
+
+par(mfrow=c(1,1), pch=1)         # Restore to 1 figure per page
+
+ 
+
+#shapes 
+
+row.names(primates) <- c("Potar monkey","Gorilla","Human", "Rhesus monkey","Chimp")
+
+attach(primates) # Needed if primates is not already attached. plot(Bodywt, Brainwt)
+
+text(x=Bodywt, y=Brainwt, labels=row.names(primates), pos=4) 
+
+ 
+
+#labels on points
+
+plot(x=Bodywt, y=Brainwt, pch=16,
+
+xlab="Body weight (kg)", ylab="Brain weight (g)", xlim=c(0,280), ylim=c(0,1350))
+
+text(x=Bodywt, y=Brainwt, labels=row.names(primates), pos=2)
+
+ 
+
+#colo and simbol plot
+
+plot(1, 1, xlim=c(1, 7.5), ylim=c(1.75,5), type="n", axes=F, xlab="", ylab="")          # Do not plot points
+
+box()
+
+points(1:7, rep(4.5, 7), cex=1:7, col=1:7, pch=0:6) text(1:7,rep(3.5, 7), labels=paste(0:6), cex=1:7, col=1:7)
+
+points(1:7,rep(2.5,7), pch=(0:6)+7)                  # Plot symbols 7 to 13 text((1:7), rep(2.5,7), paste((0:6)+7), pos=4) # Label with symbol number points(1:7,rep(2,7), pch=(0:6)+14)            # Plot symbols 14 to 20 text((1:7), rep(2,7), paste((0:6)+14), pos=4) # Labels with symbol number
+
+view.colours <- function(){
+
+plot(1, 1, xlim=c(0,14), ylim=c(0,3), type="n", axes=F, xlab="",ylab="")
+
+text(1:6, rep(2.5,6), paste(1:6), col=palette()[1:6], cex=2.5) text(10, 2.5, "Default palette", adj=0)
+
+rainchars <- c("R","O","Y","G","B","I","V")
+
+text(1:7, rep(1.5,7), rainchars, col=rainbow(7), cex=2.5) text(10, 1.5, "rainbow(7)", adj=0)
+
+cmtxt <- substring("cm.colors", 1:9,1:9)
+
+# Split “cm.colors” into its 9 characters text(1:9, rep(0.5,9), cmtxt, col=cm.colors(9), cex=3) text(10, 0.5, "cm.colors(9)", adj=0)
+
+ 
+
+#identify
+
+attach(florida)
+
+plot(BUSH, BUCHANAN, xlab=”Bush”, ylab=”Buchanan”) 
+
+identify(BUSH, BUCHANAN, County)
+
+detach(florida)
+
+ 
+
+#locator
+
+attach(florida) # if not already attached plot(BUSH, BUCHANAN, xlab=”Bush”, ylab=”Buchanan”) locator()
+
+detach(florida)
+
+ 
+#histograma
+
+attach(possum) here <- sex == "f"
+
+hist(totlngth[here], breaks = 72.5 + (0:5)        5, ylim = c(0, 22), xlab="Total length", main ="A: Breaks at 72.5, 77.5, ...")
+
+detach(possum)
+
+
+#other useful plots
+
+
+panel.smooth() plots points, then adds a smooth curve through the points. For example:
+
+attach(ais) here<- sex=="f"
+
+plot(pcBfat[here]~ht[here], xlab = “Height”, ylab = “% Body fat”) panel.smooth(ht[here],pcBfat[here])
+
+detach(ais)
+
+
