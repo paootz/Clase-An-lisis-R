@@ -1,0 +1,54 @@
+#clase 11 de septiembre de 2018
+#Paola Espinosa Brenes
+#y ejercicio tarea 6
+
+x<-c(42.2,42.6,43.3,43.5,43.7,44.1,44.9,45.3,45.7,45.7,45.9,46,46.2,46.2,46.8,46.8,47.1,47.2)
+y<-c(44,44,44,45,45,46,46,46,47,48,48,48,47,48,48,49,49,49)
+
+mod1<-lm(y~x)
+summary(mod1)
+anova(mod1)
+show(mod1)
+names(mod1)
+mod1$coefficients
+
+#BO=-2.224 
+#B1=1.083
+#SBgorrito=0.07806
+#parametro de interes es B1
+#cambio esperado en Y, incremeto en una unidad en x.
+#hipótesos p nula Ho: B1=0, ent se rechaza la hipotesis nula
+#se acepta la hip. alternativa, ie H0: B1=0 
+#porque el p-value es menor a 0.05 y se observa en el summary p-value
+
+#########################################################################################################################################################
+
+x1<-c(635,644,711,708,836,820,810,870,856,923,878,937,948)
+y1<-c(100,93,88,84,77,75,74,63,57,55,47,43,38)
+mod2<-lm(y1~x1)
+summary(mod2)
+#Proporción de la variación observada puede ser atribuida al Mod2: 88.28%
+#Calcule la desv. estándar estimada: SB1^=0.1837
+qt(.025,11) #Estadístico t con a=.05
+-0.17563-(-2.200985*0.01837)
+-0.17563+(-2.200985*0.01837)
+#Con un 95% de confianza podemos afirmar que la variación de y cuando x
+#cambia en una unidad estará entre (-0.2160,-0.1351)
+########################################################################################################################################
+
+
+x2<-c(5,12,14,17,23,30,40,47,55,67,72,81,96,112,127)
+y2<-c(4,10,13,15,15,25,27,46,38,46,53,70,82,99,100)
+mod1<-lm(y2~x2)
+summary(mod1)
+#a) ¿Existe una relación util entre la precipitación y el escurrimiento?
+# Tenemos un r2= 0.9734, lo cual nos indica que nuestro modelo explica al 97% nuestra relación
+# entre la precipitación y el escurrimiento.
+# b) Calcule el I.C. con un 95% e interprete
+n<-length(x2)
+t<-qt(0.025,n-2) #Estadístico t con a=0.05 y dos grados de libertad t=-2.160369
+0.82697-(t*0.03652)
+0.82697+(t*0.03652)
+# El I.C. es: (0.7481, 0.9058) lo que nos indica que con un 95% de confinaza 
+# podemos afirmar que el cambio de y estimada cuando x cambia en un unidad
+# está entre 0.7481 y 0.9058.
