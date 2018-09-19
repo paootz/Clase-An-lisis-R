@@ -1,0 +1,228 @@
+#Paola Brenes
+#Tarea 7
+#19 de septiembre de 2018
+
+
+install.packages("UsingR")
+require(UsingR)
+
+##En todos los ejercicios interpreten B1
+##1. Ajustar un modelo de regresi??n lineal al conjunto de datos padre.son 
+##con el padre (fheight) como el predictor y el hijo (sheight) como el resultado. 
+##Proporcione un valor de p para el coeficiente de pendiente y realice el prueba de hipotesis.
+padre<- father.son[,"fheight"]
+hijo<- father.son[,"sheight"]
+modelo<- lm(padrer~hijo)
+modelo
+show(modelo)
+summary(modelo)
+anova(modelo)
+
+##EL p-value es 2.2e-16 debido a que p-value es un valos menor a 0.05 se acepta la 
+## hipotesis alternativa
+## Tiene una significacia muy alta por lo tanto si hay una relacion util
+
+## 2.  Con base en la la pregunta 1. Interprete ambos par??metros. 
+## La b1 es: 0.64629 por lo tanto la recta de x y y tiene una pendiente positiva 
+## La hipotesis nula planet que b1=0, la alternativa que b1 es diferente de 0
+
+##3. Con base en la pregunta 1. Predecir la altura del hijo si la altura del 
+##padre es de 80 pulgadas. ??Podr??as recomendar esta predicci??n? ??Por qu?? s?? o por qu?? no?
+df1<- data.frame(hijo=80)
+predict(modelo, df1, interval ="prediction")
+
+##4. Cargue el conjunto de datos mtcars. Ajuste una regresi??n lineal 
+##con millas por gal??n como resultado y caballos de fuerza como el predictor. 
+##Interpreta tus coeficientes.
+
+data(mtcars)
+  show(mtcars)
+
+X<-mtcars[,"hp"]  
+Y<-mtcars[,"mpg"]
+
+modelo2<- lm(Y~X)
+show(modelo2)
+summary(modelo2)
+
+y=11.2607-.2525*x #recta de regresion
+
+##5. Grafique la recta de ajuste de la preg 4 en un diagrama de dispersi?n
+grafica1<- data.frame(X,Y)
+ggplot(grafica1, aes(X,Y)) + 
+  geom_point() +
+  ggtitle("Gr?fica de Dispersi?n") + 
+  geom_smooth(method=lm)
+names(modelo2)
+##6. Con base en la preg 4. Pruebe la hip?tesis de que no hay una relaci?n lineal 
+#entre los caballos de fuerza y millas por gal?n.
+#Ho: Existe una relaci?n entre caballos de fuerza y millas por gal?n.
+#Ha: No existe una relaci?n entre caballos de fuerza y millas por gal?n.
+Beta<- qt(.25,30) # calculo a un 95% del nivel confianza, n-2
+Beta
+# como el valor del estadistico es menor a .05, -0.6827557, entonces rechazamos Ho
+# y aceptamos Ha, es decir que no hay una relacion entre caballos de fuerza y millas por gal?n.
+
+##7. con base en preg 4. Predecir las millas por gal?n para una potencia de 111.
+
+Potencia<- data.frame(X=111)
+predict(modelo2, Potencia, interval = "confidence")
+
+
+###8. Ajustar un modelo de regresi?n lineal al conjunto de datos padre.son 
+#con el padre como el predictor y el hijo como el resultado. 
+#Grafiqu? la altura del hijo (eje horizontal) versus los residuales (vertical eje).
+predictor<- father.son[,"fheight"]
+resultado<- father.son[,"sheight"]
+modelo3<- lm(predictor~resultado)
+modelo3
+show(modelo3)
+# Y estimada
+yestimada1<- (34.1075-0.4889*resultado)
+yestimada1
+#  residuos 
+residuos1 <- (predictor-yestimada1)
+residuos1
+# grafica
+hijo<- father.son[, "sheight"] 
+df2<- data.frame(hijo,residuos1)
+df2
+ggplot(df2, aes(hijo,residuos1)) + 
+  geom_point() +
+  ggtitle("Gr?fica hijo y residuos") + 
+  geom_smooth(method=lm)
+
+##9. Con base en la pregunta 8.
+#Estime directamente la varianza residual y compare esta estimaci?n con 
+#la salida de lm.
+sum<-summary(modelo3) # el error estandar residual: 2.376
+sum
+sum$sigma^2   # y la varianza, su cuadrado: 5.645872
+
+##10. con base preg 8. Obtenga la R al cuadrado para este modelo 
+#y comparela con el summary.
+summary(modelo3)  # R-squared: 0.2513
+
+##11.  Ajuste una regresi?n lineal con millas por gal?n como resultado y
+#caballos de fuerza como el predictor. Grafique la potencia frente a los residuos.
+show(mtcars)
+resul<- mtcars[,"mpg"]
+predictor2<- mtcars[,"cyl"]
+predictor2
+modelo4<- lm(predictor2~resul)
+modelo4
+show(modelo4)
+# calcular Y estimada
+yestimada2<- (11.2607-0.2525*resul)
+yestimada2
+# calcular los residuos 
+residuos <- (predictor2-yestimada2)
+residuos
+### grafica
+potencia<- mtcars[,"hp"] 
+df4<- data.frame(potencia,residuos)
+df4
+ggplot(df4, aes(potencia,residuos)) + 
+  geom_point() +
+  ggtitle("Gr?fica") + 
+  geom_smooth(method=lm)
+##12. con base preg 11. Estime directamente la varianza residual 
+suma<- summary(mdmt) # el error estandar residual: 0.95
+suma
+suma$sigma^2   # y la varianza, su cuadrado: .9024651
+
+##13. con base preg 11. obtenga la R al cuadrado para este modelo.
+summary(mdmt)  # R-squared: 0.7262
+
+__________________________________________
+
+### 1 ###
+
+#y predictor /// x resultado
+
+data(father.son)
+show(father.son)
+y <- c(father.son[,1])
+x <-c(father.son[,2])
+model1 <- lm(y~x)
+show(model1)
+# El resultado es 0.4889 (B1), por lo que con este valor podemos decir que los datos 
+# muestran una relaciÃ³n real positiva.
+
+______________________________________________________________________________________
+
+### 2 ###
+
+d1 <- data.frame(x)
+predict(model1, d1, interval="confidence")
+confint(model1)
+
+
+______________________________________________________________________________________
+
+### 3 ###
+
+d2 <- data.frame(x=mean(x))
+predict(model1, d2, interval="prediction")
+
+library(ggplot2)
+
+datos <- data.frame(x,y)
+plot(datos, xlab="resultado", ylab="predictor")
+
+abline(model1)
+
+___________________________________________________________________________________________
+
+### 4 ###
+
+x<- mtcars[, 1]
+
+x
+
+y<- mtcars[,4]
+
+y
+
+mt1<- lm(y~x)
+
+show(mt1)
+
+#el coeficiente de potencia de los caballos de fuerza es de 324.08
+
+_________________________________________________________
+
+### 5 ###
+
+newx <- data.frame(x)
+
+predict(mt1, newx, interval="confidence")
+
+confint(mt1)
+
+_________________________________________________________
+
+### 6 ###  
+
+newx <- data.frame(resultado=seq(10,35))
+
+IC<-predict(mt1, newx, interval="prediction")
+
+________________________________________________________
+
+### 7 ###
+
+install.packages("ggplot2")
+
+library(ggplot2)
+
+datos<- data.frame(x,y)
+
+
+plot(datos, xlab="Resultado", ylab="Predictor")
+
+abline(mgcf)
+
+lines(newx$resultado, IC[,2],lty=5, col="green")
+
+lines(newx$resultado, IC[,3],lty=5, col="green")
