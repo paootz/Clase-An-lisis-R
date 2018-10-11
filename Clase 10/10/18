@@ -1,0 +1,24 @@
+#clase del 10 de octubre, 2018
+
+require(foreign)
+avocado1 <- read.csv("C://Users//sala-H23//Desktop//avocado.csv")
+avocado2<-avocado1[sample(nrow(avocado1), 1000), ]
+avocado<-na.omit(avocado2)
+
+modavocado<-lm(avocado$Total.Volume~avocado$AveragePrice+avocado$Total.Bags+avocado$Small.Bags+avocado$Large.Bags)
+summary(modavocado)
+
+modavocado1<-lm(avocado$Total.Volume~avocado$AveragePrice+avocado$Small.Bags+avocado$Large.Bags)
+summary(modavocado1)
+
+#en el primer modelo "modavocado" hicimos el modelo lineal con la variable del volumen total de aguacates como
+#variable dependiente, la relacionamos con las variables del precio y del tamaño total, pequeño y largo de las bolsas
+#de empaque de los mismos, nos arrojo el resultado de teer una relacion directa con el volumen de 99.9&, 99%, 99% y 
+#el total de bolsas con menos de un 95%, asi que siendo esta la mas baja y menos significativa, la eliminamos del 
+#modelo lineal "modavocado"
+
+#es asi como creamos el "modavocado1" en el cual la relacion de las variables con la var dependiente Volumen total
+#de aguacates aumentó en todos los casos siendo ahora del 99.99% todas y el precio de 99%
+#el valor de la R-cuadrada se esperaria y al mejorar la relacion y al eliminar nuestra variable con relación mas baja 
+#del modelo, en cambio esta se mantuvo teniendo una variacion mínima del .001, lo cual significa que es un buen modelo
+#pues se mantuvo en su valor.
