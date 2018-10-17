@@ -1,0 +1,32 @@
+#clase del 16 de octubre de 2018
+
+require("foreign")
+papel1 <- read.csv("C://Users//sala-H24//Desktop//pao//papel.csv")
+papel1
+
+modelo1 <- lm(COST~paper+machine, data=papel1)
+summary(modelo1)
+
+modelo2 <- lm(COST~paper+machine+overhead+labor, data = papel1)
+summary(modelo2)
+
+anova(modelo1, modelo2)
+
+####################################################################
+
+avocado1 <- read.csv("C://Users//sala-H24//Desktop//pao//avocado.csv")
+avocado1
+
+modavocado1 <- lm(price~volume+totalbags, data=avocado1)
+summary(modavocado1)
+
+modavocado2 <- lm(price~volume+totalbags+smallbags+largebags, data=avocado1)
+summary(modavocado2)
+
+anova(modavocado1, modavocado2)
+
+#como mi p value es igual a cero, es decir menor a .05, entonces  se rechaza 
+#la hipotesis nula, por lo tanto podemos concluir que las variables smallbags y
+#largebags  estan aportando significativamente a mi modelo, por lo tanto el 
+#mejor modelo sera el modavocado2, el cual solo esta midiendo la significancia 
+#entre todas las variables
