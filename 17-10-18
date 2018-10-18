@@ -1,0 +1,37 @@
+#clase del 17 de octubre de 2018
+
+require("foreign")
+persona <- read.csv("C://Users//sala-H24//Desktop//pao//clase17//persona.csv")
+View(persona)
+vivienda <- read.csv("C://Users//sala-H24//Desktop//pao//clase17//vivienda.csv")
+View(vivienda)
+#persona <- data.frame(persona)
+#vivienda <- data.frame(vivienda)
+persona <- persona[1:100, ]
+vivienda<- vivienda[1:100, ]
+persona
+persona$ID_VIV <- as.character(persona$ID_VIV)
+vivienda$ID_VIV <- as.character(vivienda$ID_VIV)
+
+persona$ID_PERSONA <- as.character(persona$ID_PERSONA)
+View(persona)
+View(vivienda)
+
+#merge es fusion
+vivipers <- merge(vivienda,persona)
+names(vivipers)
+vivipers$EDAD <- as.numeric(vivipers$EDAD)
+adultmayores <- subset(vivipers, vivipers$EDAD >=60 & vivipers$EDAD <=110)
+View(vivipers)
+
+#help(merge)
+help("sort")
+persona [order(persona$ID_VIV), ]
+persona [order(persona$ID_PERSONA), ]
+vivienda[order(vivienda$ID_VIV), ]
+
+
+
+#persona <- sort(persona$ID_VIV)
+#persona <- sort(persona$ID_PERSONA )
+#vivienda <- sort(vivienda$ID_VIV)
