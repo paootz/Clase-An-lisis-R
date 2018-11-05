@@ -1,0 +1,48 @@
+#modelos
+nulo <- lm(Fertility~1,data=base)
+completo <- lm(Fertility~.,data=base)
+step(nulo,scope=list(lower=nulo,upper=completo),direction="forward")
+summary(completo)
+help(step)
+mod1<-lm(formula = Fertility ~ Education + Catholic + Infant.Mortality + Agriculture, data = base)
+summary(mod1)
+#con la finalidad de observar aspectos básicos como la R2 ajustada que nos permite conocer 
+#la variabilidad explicada del modelo. Los errores de los residuos 7.168, la significancia
+#de las variables. El estadístico F y el p-value para ver el ajuste del modelo
+#La aprueba de hipotesis que se aplica en el estadistico F es 
+#Ho:B0,B1,...Bk =0
+#Ha: al menos una Bj diferente de cero
+
+#Aqui esperamos rechazar la hipotesis nula, por lo que el valor p-value debe ser <.05
+#y además el estadistico F debe ser mayor a 1 para tener buena bondad de ajuste
+#Al parecer tenemos un buen modelo segun estos indicadores
+#Pruebas formales de los supuestos
+shapiro.test(rstudent(mod1)) #se espera un p-value >.05
+#aqui esperamos no rechazar la hipotesis nula por lo que el valor de p-value >.05, aqui
+#observamos un p-value de .48 por loq ue podemos mencionar que no rechazamos la hipotesis 
+#nula, es decir, los errores se distribuyen normal
+require(lmtest)
+bptest(mod1)
+#Prueba Breusch Pagan que permite ver autocorrelacion
+#aqui esperamos no rechazar la hipotesis nula, es decir, un p-value mayor a .05, este 
+#modelo nos permite saber que no hay más de dos variables que aporten lo mismo al modelo,
+#en este caso tenemos un p-value de .53 por lo que no rechazamos la hip nula que
+#es lo que estabamos esperando o se puede decir que este modelo si cumple el supuesto
+#de autocorrelacion
+dwtest(mod1,alternative = "two.sided")
+
+#Prueba de hipotesis para el estadistico t
+#t<.05 para que sea significativa
+#El modelo elegido estima que hay una disminución de .15 en la tasa de fecundidad por 
+#cada aumento de 1 por ciento de hombres involucrados en la agricultura manteniendo
+#constantes las variables restantes.
+#Aqricultura -.1546 coeficientes
+#El modelo elegido estima que hay una disminucion de .98 en la tasa de fecundidad cada
+#aumento de 1 por ciento de la educacion manteniendo constantes las variables restantes
+#Educacion.... -.9802
+#el modelo elegibo estima que hay un incremento de .12 en la tasa de fecundidad cada aumento
+#de 1 por ciento de la poblacion catolica manteniendo constantes las variables restantes
+#catholic... .1202
+#el modelo elegido estima que hay un incremento de 1.07 en la tasa de fecundidad cada aumento
+# de 1 por ciento de mortalidad infantil manteniendo constantes las variables restantes
+#infant mortality 1.07
