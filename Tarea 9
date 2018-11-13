@@ -1,0 +1,59 @@
+#Tarea del 13 de noviembre de 2018
+#Paola M. Espinosa Brenes
+
+#En el 1er paso  se hizo la importacion de la base de datos LifeCycleSavings
+require(datasets)
+data(LifeCycleSavings)
+
+#En el segundo paso guarde las variables dentro de la base 
+#para efectos didacticos
+pop75<-LifeCycleSavings$pop75
+sr<-LifeCycleSavings$sr
+pop15<-LifeCycleSavings$pop15
+dpi<-LifeCycleSavings$dpi
+ddpi<-LifeCycleSavings$ddpi
+
+#en el 3er paso se crea un data frame con las variables definidas en el paso 2
+base1<-data.frame(pop75,sr,pop15,dpi,ddpi)
+
+#4to paso: creación el modelo nulo con nuestra variavle dependiente que en este caso sera over75, asi como el modelo completo
+modnul<-lm(pop75~1)
+modnul
+modcom<-lm(pop75~.,data=base1)
+modcom
+
+#5to paso se hacen las posibles combinacion de nuestra variable dependiente con las variables independientes
+mod1<-lm(pop75~sr)
+summary(mod1)
+mod2<-lm(pop75~sr+pop15)
+summary(mod2)
+mod3<-lm(pop75~sr+pop15+dpi)
+summary(mod3)
+mod4<-lm(pop75~sr+pop15+dpi+ddpi)
+summary(mod4)
+
+#6to paso aplicación del AIC
+step(modnul,scope=list(lower = modnul, upper=modcom), direction = "forward")
+#Podemos observar que el modelo con AIC más bajo es el que contiene las variables pop15, dpi y sren los modelos antes realizados, dichas variables pertenecen a el mod3, por lo que será ese el modelo con el que se va a trabajar
+
+#7mo paso comprobamos que se cumpla la prueba de normalidad gracias al test de 
+#Shapiro-Wilk
+#H0=datos con distribución normal
+#H1=sin dist. normal
+shapiro.test(rstudent(mod3))
+#Esperamos no rechazar la hipotesis nula por lo que nuestro p-value deberá ser mayor a .05
+#Como se obtuvo un p-value de .1628, entonces no rechazamos H0 y entonces nuestro modelo 
+#ha pasado la prueba de normalidad (Los datos se distribuyen normalmente)
+
+#8vo paso comprobar que se cumpla el supuesto de autocorrelacion mediante la prueba
+#de Breusch-Pagan
+#H0=los datos son homocedásticos.
+#Ha= los datos son heterocedásticos.
+install.packages("lmtest")
+require(lmtest)
+bptest(mod3)
+#Esperamos rechazar la hipotesis nula por lo que el p-value deberá ser menor a .05
+#el p-value obtenido fue de 0.2714, entonces no se rechaza la hipotesis nula
+#Esto significa que en el modelo hay datos homocedásticos, en otras palabras, el valor de alguna
+#variable se predice con otras
+#Nuestro modelo entonces no ha pasado la prueba de autorelación
